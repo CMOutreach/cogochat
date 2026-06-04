@@ -1,0 +1,97 @@
+# CRM Tracker — Google Sheets Setup Guide
+
+This sheet tracks every lead, where it came from, what they bought, and what commission is owed. Keep it updated after every deal closes.
+
+---
+
+## Sheet 1: Lead Tracker
+
+| Column | Header | What Goes Here |
+|---|---|---|
+| A | Lead ID | A simple number, e.g. 001, 002. Add one for each new lead. |
+| B | Business Name | The name of the business you are contacting. |
+| C | Contact Name | First name of the person you spoke to. |
+| D | Email | Their email address. |
+| E | Phone | Their phone number if you have it. |
+| F | Location | Town or city. |
+| G | Lead Source | Either "Owner" (passed by the owner) or "Conner" (found by Conner). |
+| H | Date Added | The date you first added this lead. Format: DD/MM/YYYY. |
+| I | Status | Use one of: Contacted, Follow Up, Call Booked, Proposal Sent, Closed Won, Closed Lost, No Response. |
+| J | Notes | Any details from calls, emails, or conversations. Keep it brief. |
+
+---
+
+## Sheet 2: Deals
+
+Log a row here every time a deal closes.
+
+| Column | Header | What Goes Here |
+|---|---|---|
+| A | Deal ID | Match to Lead ID from Sheet 1. |
+| B | Business Name | Same as Sheet 1. |
+| C | Lead Source | "Owner" or "Conner". |
+| D | Deal Type | "One Off" or "Monthly Retainer". |
+| E | Service | e.g. Growth Website, Ads Management, Pro Full Service. |
+| F | Deal Value | The amount charged. One off: full amount. Retainer: monthly amount. |
+| G | Date Closed | When the deal was signed or payment received. |
+| H | Commission Rate | Calculated automatically using the formula in column I. |
+| I | Commission Owed | Formula calculates based on source, deal type, and value (see rules below). |
+| J | Month | For retainers, the month this commission relates to. Format: MM/YYYY. |
+| K | Paid Out | Yes or No. Mark Yes once commission has been paid. |
+
+---
+
+## Commission Rules
+
+### Owner Sourced Leads (passed by the owner to Conner)
+
+**Rate: 20% of everything, forever.**
+
+This applies to both one off payments and monthly retainers. As long as that client is paying, the owner earns 20%.
+
+### Conner Sourced Leads — One Off Deals
+
+| Deal Value | Commission Rate |
+|---|---|
+| Under £500 | 40% |
+| £500 and over | 30% |
+
+### Conner Sourced Leads — Monthly Retainers
+
+Commission rate depends on how many monthly retainer clients Conner has personally closed in total. This is a running total across all time, not just the current month.
+
+| Conner's Total Monthly Clients Closed | Commission Rate |
+|---|---|
+| 1 to 5 | 20% |
+| 6 to 10 | 25% |
+| 11 to 20 | 30% |
+| Over 20 | 40% |
+
+**Important:** When Conner hits a new tier, the new rate applies to all of his existing self-sourced monthly clients immediately. Every retainer he sourced moves up with him.
+
+---
+
+## Sheet 3: Monthly Commission Summary
+
+Use this sheet at the end of each month to calculate what is owed.
+
+| Column | Header | What Goes Here |
+|---|---|---|
+| A | Month | The month being calculated. Format: MM/YYYY. |
+| B | Conner Total Monthly Clients | Count of all active self-sourced retainer clients as of this month. Use this to determine Conner's tier. |
+| C | Owner Commission Total | Sum of all 20% commission on owner-sourced deals active this month, both one offs and retainers. |
+| D | Conner Commission Total | Sum of all Conner's commission using the correct tier rate for this month. |
+| E | Total Paid Out | What has actually been paid this month. |
+| F | Outstanding | What is still owed. Formula: (C + D) minus E. |
+
+---
+
+## Tips
+
+Keep the Deals sheet clean. One row per deal per month for retainers so you can track ongoing payments accurately.
+
+Colour code the Status column in the Lead Tracker. Use green for Closed Won, red for Closed Lost, yellow for active conversations. It makes it faster to scan.
+
+Set up a filter on the Deals sheet so you can quickly view all rows for a given month or source.
+
+When Conner hits a new tier, update the commission rate on all his active retainer rows in the Deals sheet for that month and going forward.
