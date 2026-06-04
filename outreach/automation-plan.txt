@@ -1,0 +1,372 @@
+COGOCHAT AUTOMATION MASTER PLAN
+Claude Integrations in Priority Order
+======================================
+
+This document covers every automation worth building for CogoChat, in the
+order you should build them. Each one includes what it does, what it needs,
+whether it costs money, how complex it is, and the exact prompt to give
+Claude Code to build it.
+
+
+======================================
+1. WINDOWS TASK SCHEDULER — WEEKLY REPORT
+======================================
+
+WHAT IT DOES
+Makes the weekly report script fire automatically every Monday at 8am
+without you having to do anything. The script already exists and works.
+This just automates the trigger.
+
+TOOLS NEEDED
+Windows Task Scheduler (built into Windows, no install needed).
+The script at scripts\weekly-report.js is already built and tested.
+
+COST
+Free.
+
+COMPLEXITY
+Simple.
+
+HOW TO DO IT
+This one does not need Claude. Open the file scripts\README.txt in the
+project folder. The full step by step is already written there. It takes
+about 2 minutes. You need to complete this before the weekly report will
+ever fire automatically. Do this first.
+
+
+======================================
+2. OUTLOOK EMAIL INTEGRATION
+======================================
+
+WHAT IT DOES
+Claude watches hello@cogochat.com for new enquiries. When a contact form
+submission or new lead email arrives, Claude drafts a reply using the
+right tone and CogoChat pricing. You review the draft and send it. It also
+logs the lead into the CRM Google Sheet automatically.
+
+TOOLS NEEDED
+Microsoft Graph API (free, part of Microsoft 365).
+An Azure app registration (free).
+The googleapis package already in the project.
+A new script: scripts/outlook-monitor.js
+
+COST
+Free. Microsoft Graph API has no usage cost for reading and sending email
+via a standard Microsoft 365 account.
+
+COMPLEXITY
+Medium. The Azure app registration takes about 10 minutes. The script
+itself is straightforward once auth is in place.
+
+WHAT YOU NEED BEFORE RUNNING THE PROMPT
+Go to portal.azure.com and sign in with the Microsoft account that owns
+hello@cogochat.com. Register a new app, add Mail.Read and Mail.Send
+permissions, and create a client secret. Note down the client ID, tenant
+ID, and client secret. You will add these to the .env file.
+
+CLAUDE CODE PROMPT
+"Create a script at scripts/outlook-monitor.js that uses the Microsoft
+Graph API to monitor hello@cogochat.com for new emails. Use client
+credentials from .env: MS_CLIENT_ID, MS_TENANT_ID, MS_CLIENT_SECRET,
+MS_USER_EMAIL. When a new unread email arrives that looks like a business
+enquiry (check subject line for words like website, quote, enquiry,
+contact, help, price), the script should: 1. Mark it as read. 2. Extract
+the sender name, email, and message body. 3. Add a new row to the CogoChat
+CRM Google Sheet (ID: 1dM0JB6WBgQ4AQxhbmCAa6u4oPSkTHPB0MFk0_xGRk6Y)
+with the contact name, email, status set to New, lead source set to Owner
+Found, and today's date. 4. Generate a draft reply using a template that
+thanks them for getting in touch, mentions we will be in touch within 24
+hours, and signs off from the CogoChat team. Save the draft to the
+Drafts folder in Outlook using the Graph API so the owner can review and
+send it. Use credentials.json for Google Sheets auth. Poll for new emails
+every 5 minutes using setInterval. Log each action to the console. Include
+setup instructions as comments at the top of the file."
+
+
+======================================
+3. WHATSAPP BUSINESS API
+======================================
+
+WHAT IT DOES
+Logs WhatsApp conversations with leads directly into the CRM Notes column.
+When a conversation ends or a keyword is detected, it adds a timestamped
+summary to the right row in the sheet. No more copying and pasting chat
+logs manually.
+
+TOOLS NEEDED
+WhatsApp Business API via Meta (formerly Facebook).
+A Meta Business account and a verified phone number.
+A webhook endpoint (you need a publicly accessible URL, use ngrok for
+testing or deploy to Vercel for production).
+A new API route: app/api/whatsapp/route.js
+
+COST
+The WhatsApp Business API itself is free for the first 1000 conversations
+per month. After that it is around £0.04 to £0.08 per conversation
+depending on type. For CogoChat volumes this will stay free.
+
+COMPLEXITY
+Complex. Meta's verification process takes a few days. The webhook setup
+requires a public URL. Worth doing once volume picks up.
+
+WHAT YOU NEED BEFORE RUNNING THE PROMPT
+Create a Meta Business account at business.facebook.com. Add a WhatsApp
+Business account and verify a phone number. Create a Meta app at
+developers.facebook.com, enable the WhatsApp product, and get a temporary
+access token. Note down your phone number ID and WhatsApp Business Account
+ID.
+
+CLAUDE CODE PROMPT
+"Create a Next.js API route at app/api/whatsapp/route.js that handles
+incoming WhatsApp Business API webhooks from Meta. The route should:
+1. Handle GET requests for webhook verification using WHATSAPP_VERIFY_TOKEN
+from .env. 2. Handle POST requests for incoming messages. When a message
+arrives, extract the sender phone number, sender name if available, and
+message text. 3. Search the CogoChat CRM Google Sheet (ID:
+1dM0JB6WBgQ4AQxhbmCAa6u4oPSkTHPB0MFk0_xGRk6Y) for an existing row where
+the Phone column matches the sender. If found, append the message with a
+timestamp to the Notes column. If not found, create a new row with the
+phone number, status New, source Owner Found, and the message in Notes.
+4. Send an automatic WhatsApp reply using the Meta Graph API saying:
+Hi, thanks for getting in touch with CogoChat. We will get back to you
+shortly. Use WHATSAPP_ACCESS_TOKEN and WHATSAPP_PHONE_NUMBER_ID from .env.
+Use credentials.json for Google Sheets auth. Add all required env variable
+names as comments at the top of the file."
+
+
+======================================
+4. AUTO PROPOSAL GENERATION
+======================================
+
+WHAT IT DOES
+When a row in the CRM is moved to Proposal Sent status, Claude
+automatically generates a personalised proposal document using the data
+in that row (business name, service, deal value) and emails it to the
+contact. Uses the proposal-template.txt in the outreach folder as the
+base. No manual writing required.
+
+TOOLS NEEDED
+Google Sheets API (already set up).
+Resend API (already set up).
+A new script: scripts/proposal-generator.js
+
+COST
+Free. Uses APIs already in place.
+
+COMPLEXITY
+Medium.
+
+CLAUDE CODE PROMPT
+"Create a script at scripts/proposal-generator.js that monitors the
+CogoChat CRM Google Sheet (ID: 1dM0JB6WBgQ4AQxhbmCAa6u4oPSkTHPB0MFk0_xGRk6Y)
+for rows where the Status column has just changed to Proposal Sent and
+the Proposal Sent Date column is empty. For each such row: 1. Read the
+business name, contact name, email, service, deal value, and monthly value
+from the row. 2. Generate a proposal email in HTML using the structure
+from outreach/proposal-template.txt. Fill in the business name, contact
+name, recommended service, and pricing. Use CogoChat pricing: Starter
+Website £499 one off, Growth Website £899 one off, Marketing Retainer
+£149 per month, Landing Page £249 one off, Lead Generation £149 per month,
+Ads Management £249 per month, Pro Full Service £349 per month. 3. Send
+the email from hello@cogochat.com to the contact email using the Resend
+API with RESEND_API_KEY from .env. Subject line: Your CogoChat Proposal,
+[Business Name]. 4. Write today's date into the Proposal Sent Date column
+for that row. Use credentials.json for Sheets auth. Run as a check every
+10 minutes using setInterval. Log all actions. Add setup comments at the
+top."
+
+
+======================================
+5. AUTO INVOICE CREATION
+======================================
+
+WHAT IT DOES
+When a deal is marked Won in the CRM, an invoice is automatically created
+and emailed to the client. No manual invoicing. The invoice includes the
+business name, service, amount, payment details, and a due date of 7 days.
+
+TOOLS NEEDED
+Resend API (already set up) for delivery.
+Option A: Use a free invoicing API like Invoice Ninja (free self-hosted or
+free tier on their cloud).
+Option B: Generate a clean HTML invoice and send it directly as an email.
+Option B is simpler and needs nothing new.
+
+COST
+Free if using the HTML email approach.
+
+COMPLEXITY
+Medium.
+
+CLAUDE CODE PROMPT
+"Create a script at scripts/invoice-generator.js that monitors the
+CogoChat CRM Google Sheet (ID: 1dM0JB6WBgQ4AQxhbmCAa6u4oPSkTHPB0MFk0_xGRk6Y)
+for rows where Status is Won and Close Date is empty. For each such row:
+1. Read business name, contact name, email, service, deal value, and
+monthly value. 2. Generate an invoice number in format INV-[YEAR]-[padded
+row number]. 3. Build a clean professional HTML invoice email with:
+invoice number, date, due date 7 days from today, client name and business
+name, line items for the service selected, total amount due, and payment
+details (bank transfer, account name CogoChat, sort code and account
+number as placeholder text for the owner to fill in). Use dark green
+CogoChat branding. 4. Send the invoice from hello@cogochat.com to the
+contact email via Resend API using RESEND_API_KEY from .env. Subject:
+Invoice [invoice number] from CogoChat. 5. Write today's date into the
+Close Date column in the sheet. Use credentials.json for Sheets auth.
+Run as a check every 10 minutes. Log all actions."
+
+
+======================================
+6. CLIENT WELCOME EMAIL SEQUENCE
+======================================
+
+WHAT IT DOES
+When a deal is marked Won, the client automatically receives a sequence of
+three emails. Email one goes out immediately: welcome, here is what happens
+next. Email two goes out on day three: checking in, any questions. Email
+three goes out on day seven: your project is underway, here is a progress
+update placeholder for the owner to fill in. This runs without anyone
+having to remember to send them.
+
+TOOLS NEEDED
+Resend API (already set up).
+Google Sheets API (already set up).
+A new column in the CRM to track welcome sequence progress.
+
+COST
+Free.
+
+COMPLEXITY
+Medium.
+
+CLAUDE CODE PROMPT
+"Create a script at scripts/welcome-sequence.js that monitors the CogoChat
+CRM Google Sheet (ID: 1dM0JB6WBgQ4AQxhbmCAa6u4oPSkTHPB0MFk0_xGRk6Y)
+and sends a three-part welcome email sequence to clients when their status
+is Won. First check if column Q exists with header Welcome Seq. If not,
+add it. Use this column to track sequence progress as a number: 0 means
+not started, 1 means email one sent, 2 means email two sent, 3 means
+complete. Logic: if Status is Won and Welcome Seq is empty or 0, send
+welcome email one immediately and set Welcome Seq to 1 and log the
+timestamp in a new column R called Seq Started. If Welcome Seq is 1 and
+3 or more days have passed since Seq Started, send email two and set to 2.
+If Welcome Seq is 2 and 7 or more days have passed, send email three and
+set to 3. Email one subject: Welcome to CogoChat, [Business Name]. Content:
+friendly welcome, what happens next, timeline, and who to contact. Email
+two subject: Quick check in from CogoChat. Content: hope you have had a
+chance to look things over, any questions just reply. Email three subject:
+Project update from CogoChat. Content: work is underway, here is where
+things are at, placeholder text the owner replaces before sending. All
+emails from hello@cogochat.com via Resend. RESEND_API_KEY from .env.
+credentials.json for Sheets auth. Run as a check every hour."
+
+
+======================================
+7. GOOGLE SEARCH CONSOLE DATA IN MONDAY REPORT
+======================================
+
+WHAT IT DOES
+Adds a section to the Monday morning weekly report showing how cogochat.com
+performed in Google Search over the past 7 days. Clicks, impressions, top
+search queries, and average position. Useful for seeing whether the site
+is growing its organic reach week on week.
+
+TOOLS NEEDED
+Google Search Console API (free).
+The service account already set up needs to be added as a user in Search
+Console. Go to Google Search Console, open cogochat.com property, go to
+Settings, Users and permissions, and add the service account email as a
+verified owner or full user:
+cogochat-crm@mineral-liberty-498414-q0.iam.gserviceaccount.com
+Also enable the Google Search Console API in Google Cloud Console for the
+same project.
+
+COST
+Free.
+
+COMPLEXITY
+Simple. The hardest part is enabling access in Search Console.
+
+CLAUDE CODE PROMPT
+"Update the script at scripts/weekly-report.js to add a Google Search
+Console section to the weekly report email. Use the googleapis package and
+credentials.json for auth. The Search Console property URL is
+https://cogochat.com (try sc-domain:cogochat.com if the URL version is
+not verified). Fetch data for the last 7 days using the searchanalytics
+query endpoint. Pull: total clicks, total impressions, average CTR,
+average position, and the top 5 search queries by clicks with their
+individual click and impression counts. Add this data as a new section in
+the HTML email after the commission section. Title it Search Performance
+This Week. Format the table with the same dark green CogoChat styling
+already used in the email. If the Search Console API returns an error or
+no data, skip the section silently and log the error to the console so the
+rest of the report still sends."
+
+
+======================================
+8. NEXT.JS SECURITY UPGRADE
+======================================
+
+WHAT IT DOES
+Upgrades Next.js from version 14.2.0 to the latest stable release.
+Version 14.2.0 has known security vulnerabilities. This is a maintenance
+task that should be done before the site goes live or handles any real
+traffic.
+
+TOOLS NEEDED
+npm. Nothing else.
+
+COST
+Free.
+
+COMPLEXITY
+Simple in most cases. There is a small chance of breaking changes if
+the project uses any deprecated APIs between 14.2.0 and the latest version,
+but for a standard Next.js setup it is usually a one-command fix.
+
+CLAUDE CODE PROMPT
+"Check the current Next.js version in package.json. Then upgrade Next.js
+to the latest stable version along with its peer dependencies react,
+react-dom, and eslint-config-next. Run npm install and then run
+npm run build to check for any build errors caused by the upgrade. If
+there are build errors, identify what changed and fix them. Show me the
+before and after versions. Check the Next.js changelog between the old
+and new version for any breaking changes that apply to this project and
+flag them if found. After the build passes successfully, summarise what
+was upgraded and confirm there are no outstanding security vulnerabilities
+in the updated packages by running npm audit."
+
+
+======================================
+RECOMMENDED BUILD ORDER
+======================================
+
+Do these in order. Each one is more useful with the previous ones in place.
+
+1. Task Scheduler      Open scripts\README.txt and follow the steps now.
+2. Proposal Generator  Highest immediate business value. Saves time on
+                       every deal.
+3. Invoice Creator     Pairs with the proposal generator. Closes the loop
+                       on every won deal.
+4. Welcome Sequence    Keeps new clients warm without any manual effort.
+5. Outlook Monitor     Automates lead capture from email enquiries.
+6. Search Console      Adds useful data to the report you already have.
+7. Next.js Upgrade     Maintenance. Do before going live.
+8. WhatsApp API        Build last. Most complex and needs Meta approval.
+
+
+======================================
+RUNNING EVERYTHING TOGETHER
+======================================
+
+Once you have more than one monitoring script running (outlook-monitor.js,
+proposal-generator.js, invoice-generator.js, welcome-sequence.js), you
+will want a single process manager to keep them all running in the
+background. Ask Claude Code to:
+
+"Create a script called scripts/run-all.js that uses the child_process
+module to start outlook-monitor.js, proposal-generator.js,
+invoice-generator.js, and welcome-sequence.js as background processes.
+Log the start of each process. Restart any process that crashes. Add this
+to the Windows Task Scheduler to run on system startup using instructions
+in the same style as scripts\README.txt."

@@ -1,0 +1,131 @@
+CONNER BRIEFING
+CogoChat Sales Process and Reference Guide
+==========================================
+
+
+1. HOW THE TWO CALL SYSTEM WORKS
+---------------------------------
+
+Call One is a discovery call. Your job is to find out about the business. Ask what they do, who their customers are, how people currently find them, and what is not working. You are not selling anything on this call. You are listening.
+
+Record the call and send it to the owner after. The owner uses what you have found out to do a free audit of the business's online presence. That means checking their website, how they show up on Google, their social pages, reviews, and what their competitors look like online.
+
+Call Two is where you present what the audit found. Walk them through the problems in plain terms. Do not overwhelm them with technical language. Then move into what you would recommend and talk through pricing. The goal is to get them to a proposal.
+
+Keep both calls short and focused. Most people do not want to be on the phone for an hour. Get in, cover what you need to cover, get out.
+
+
+2. HOW TO USE THE OUTREACH TEMPLATES
+--------------------------------------
+
+All templates are in the outreach folder. There is a README in there that explains what each file is and when to use it.
+
+Before you send anything, fill in every field. That means the business name, the first name of the person you are contacting, their town or city, and at least one specific thing you noticed about their business. That last part is the most important.
+
+Do not send a template without changing it first. A generic message gets ignored. A message that references something real about their business gets a reply.
+
+If you found them through a Facebook group and they mentioned they do garden fencing, say that. If their website has not been updated since 2019, say that. If they have five Google reviews and their competitor has sixty, say that.
+
+One specific detail does more work than three paragraphs of general copy.
+
+Template files:
+
+cold-email-1.txt   Use this for businesses with no website at all.
+cold-email-2.txt   Use this as a follow up when someone does not reply to your first email. Send it as a reply in the same thread, 4 to 7 days later.
+cold-email-3.txt   Use this for businesses that have a website but it is weak, outdated, or not working properly.
+facebook-dm.txt    Use this for cold outreach on Facebook Messenger. Keep it casual. Do not include links in the first message.
+instagram-dm.txt   Same as Facebook but even shorter. Instagram DMs should feel like a real person, not a campaign.
+
+
+3. WHAT YOU ARE SELLING
+------------------------
+
+Here is the full pricing. Know this off the top of your head before you get on a call.
+
+Starter Website        £499 one off
+Growth Website         £899 one off
+Marketing Retainer     £149 per month (add on to Growth Website only)
+Landing Page           £249 one off
+Lead Generation        £149 per month
+Ads Management         £249 per month (client pays for their own ad spend on top of this)
+Pro Full Service       £349 per month
+
+When you are talking to someone, do not read out the whole list. Listen to what they need and recommend one or two options that make sense for them. If they are a small local trade with no website, Starter or Growth is the conversation. If they want leads coming in consistently, monthly retainers are the conversation.
+
+The owner builds all the sites and handles fulfilment. Your job is to close the deal and hand it over cleanly.
+
+
+4. YOUR COMMISSION
+-------------------
+
+LEADS THE OWNER PASSED TO YOU
+
+Rate: 20 percent of everything, forever.
+
+This applies to one off payments and monthly retainers alike. If the owner found the lead and passed it to you, you earn 20 percent of every payment that client ever makes. That does not change regardless of how many clients you close.
+
+LEADS YOU FOUND YOURSELF, ONE OFF DEALS
+
+Under £500 deal value: you earn 40 percent.
+£500 and over: you earn 30 percent.
+
+LEADS YOU FOUND YOURSELF, MONTHLY RETAINERS
+
+Your rate depends on how many monthly retainer clients you have personally closed in total. This is a running total, not just active clients right now.
+
+1 to 5 monthly clients closed: 20 percent
+6 to 10 monthly clients closed: 25 percent
+11 to 20 monthly clients closed: 30 percent
+Over 20 monthly clients closed: 40 percent
+
+When you hit a new tier, the new rate applies to all of your existing self-sourced monthly clients straight away. Every retainer you sourced moves up with you.
+
+Clients the owner passed to you always stay at 20 percent. They do not move with your tier.
+
+Example: you have 9 self-sourced monthly clients earning 25 percent. You close your 11th. Every one of those clients now pays you 30 percent from that month forward.
+
+
+5. WHAT TO DO WHEN A CLIENT SAYS YES
+--------------------------------------
+
+1. Confirm which option they are going with and note it down.
+2. Pass the client details and what they agreed to over to the owner.
+3. The owner sends the agreement and payment details.
+4. Work starts within a few working days of the deposit being received.
+
+Do not tell a client work will start on a specific date before the deposit is in. Keep expectations clear from the start.
+
+If a client goes quiet after saying yes, follow up once after two or three days. If they still do not respond, leave it and move on.
+
+
+6. KEY CONTACTS
+----------------
+
+Owner: builds all websites and handles all fulfilment. Send call recordings and client details to the owner after each call.
+Conner: handles all sales calls and outreach.
+Email: hello@cogochat.com
+Website: cogochat.com
+
+
+7. OBJECTION HANDLING
+----------------------
+
+WE ARE TOO SMALL TO NEED A WEBSITE
+
+Even very small businesses lose work without a website. If someone hears about you and looks you up online and finds nothing, a good number of them will just move on to someone else. You do not need a big site. You need something that shows up when people search and tells them how to get in touch.
+
+WE ALREADY HAVE FACEBOOK
+
+Facebook is useful but you do not own it. The algorithm decides who sees your posts. You cannot be found on Google through a Facebook page the same way you can through a proper website. A website works for you all the time without you having to post anything.
+
+WE CANNOT AFFORD IT RIGHT NOW
+
+The Starter Website is £499 one off. If it gets you one extra job, it has paid for itself. Most businesses make that back within the first month. What is it costing you right now to be invisible online?
+
+WE HAD A BAD EXPERIENCE WITH A WEB DESIGNER BEFORE
+
+That comes up a lot. A lot of people have been burned by someone who took money and disappeared or delivered something that did not work. We are a small team and you deal with a real person throughout. We do not take on more than we can handle and we do not disappear after the invoice is paid.
+
+I NEED TO THINK ABOUT IT
+
+That is fine. What is the main thing holding you back? Most of the time there is a specific concern sitting behind that answer. Find out what it is and deal with it directly. If they genuinely need time, agree a specific date to follow up and put it in your calendar.
